@@ -19,7 +19,7 @@ Parameter param;
 int main()
 {	
 	cout << "Simulation start..." << endl;
-	
+	cout << "This is from recombination branch of the project" << endl;
 	// Ouverture des fichiers entree et sortie:
 	bool fin;
 
