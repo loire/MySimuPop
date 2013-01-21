@@ -29,6 +29,8 @@ boost::dynamic_bitset<> RandomMask(int N)
 
 void rec(chr_diplo &res, chr_diplo &c1, chr_diplo &c2, double Sz, int nS)
 {
+
+	cout << "change in rec function"
 	vector<int> pos;
 	int j;
 	int nS_1 = nS - 1;
