@@ -19,8 +19,6 @@ void cntl_c_handler (int bidon)
 
 void recursion(Parameter &param)
 {
-	cout << "hello" << endl;
-
 
 	// Useful stuff
 	int i, j, k, l, gen, mut, chr1, chr2, ind;
