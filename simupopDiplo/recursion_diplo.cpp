@@ -30,6 +30,33 @@ void recursion(Parameter &param)
 
 	chr_diplo progeny;
 
+	///////////////////////////////////////////////////////////////////////////
+	// Output file name //
+	//////////////////////////////////////////////////////////////////////////
+	char nomFichier[256];
+	stringstream nomF;
+	nomF << "result_n" << param.Get_n() << "_N" << param.Get_N() << "_sA" << param.Get_a() << "_s" << param.Get_s() << "_sigs" << param.Get_sig_s() << "_c" << param.Get_i() << "_sigc" << param.Get_sig_i() << "_U" << param.Get_U() << "_nbS" << param.Get_nbS() << "_L" << param.Get_L() << "_loc" << param.Get_loc() << "_freerec" << param.Get_freerec() << ".txt";
+	nomF >> nomFichier;
+
+	ofstream fichierR;
+	fichierR.open(nomFichier,ofstream::app);
+	fichierR << "#New Sim\n";
+
+
+	////////////////////////////////////////////////////////////////////////
+	// Time of execution handling //
+	////////////////////////////////////////////////////////////////////////
+	time_t debut, fin;
+	struct tm *ptr;
+	debut = time(0);
+
+	cntl_c_bool = false;
+	signal(SIGINT, cntl_c_handler);
+
+
+	///////////////////////////////////////////////////////////////////////
+	// Allocate memory for individuals
+	//////////////////////////////////////////////////////////////////////
 
 	int nbFix = 0;
 	int pas_c = 20;
@@ -41,17 +68,9 @@ void recursion(Parameter &param)
 	int N_1 = param.Get_N() - 1;
 	int nbS_1 = param.Get_nbS() - 1;
 
-
-
-
-
-
-
 	// Bidimensional array : 	
 	chr_diplo ** pop = new chr_diplo *[param.Get_n()];
 	chr_diplo ** temp = new chr_diplo *[param.Get_n()];
-
-
 
 	double ** Wij = new double *[param.Get_n()];
 	for ( i=0; i < param.Get_n();i++)
@@ -66,24 +85,12 @@ void recursion(Parameter &param)
 	double * le = new double [param.Get_nbS()]; // to store global allele frequency
 
 
-	selCoeffs * Sco = new selCoeffs [param.Get_nbS()]; // Allocate memory for fitnesses of locus
 
-	char nomFichier[256];
-	stringstream nomF;
-	nomF << "result_n" << param.Get_n() << "_N" << param.Get_N() << "_sA" << param.Get_a() << "_s" << param.Get_s() << "_sigs" << param.Get_sig_s() << "_c" << param.Get_i() << "_sigc" << param.Get_sig_i() << "_U" << param.Get_U() << "_nbS" << param.Get_nbS() << "_L" << param.Get_L() << "_loc" << param.Get_loc() << "_freerec" << param.Get_freerec() << ".txt";
-	nomF >> nomFichier; 
-
-	ofstream fichierR;
-	fichierR.open(nomFichier,ofstream::app);
-	fichierR << "#New Sim\n";
-
-	time_t debut, fin;
-	struct tm *ptr;
-	debut = time(0);
-
-	cntl_c_bool = false;
-	signal(SIGINT, cntl_c_handler);
-
+	///////////////////////////////////////////////////////////////////////////
+	// Allocate memory for fitness of locus
+	///////////////////////////////////////////////////////////////////////////
+	// TODO : Put in function
+	selCoeffs * Sco = new selCoeffs [param.Get_nbS()];
 
 
 	//sampling selection coefficients:
@@ -132,7 +139,9 @@ void recursion(Parameter &param)
 		}
 	}
 
-
+	//////////////////////////////////////////////////////////////////////////////
+	// Print parameters values on standard output
+	/////////////////////////////////////////////////////////////////////////////
 
 
 	cout << " nv "<< param.Get_n() << "\n";
@@ -153,7 +162,6 @@ void recursion(Parameter &param)
 	cout << " pasv "<<param.Get_pas() << "\n";
 	cout << " freerecv "<< param.Get_freerec() << "\n";
 	cout << " no_mutv " << param.Get_no_mut() << "\n";
-	/// End of Sco filling
 	cout <<  " nbSv  "<<param.Get_nbS() << "\n";
 
 	////// Some printing (to be erased later)
@@ -172,14 +180,28 @@ void recursion(Parameter &param)
 	//	progeny.chr1.resize(param.Get_nbS());
 	//	progeny.chr2.resize(param.Get_nbS());
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Addressing life cycle functions according to parameter
+	////////////////////////////////////////////////////////////////////////////////
+	void (*recfunc)(Parameter&, chr_diplo &, chr_diplo &, chr_diplo &) = NULL;
 
-	// Choosing migration function according to Number of demes
+	if (param.Get_freerec()==1)
+		recfunc= &freerec;
+	else
+	{
+		if ( param.Get_nbS() < param.Get_L() )
+			recfunc = &rec_r;
+		else
+			recfunc= &rec_L;
+	}
 
 	void (*migfunc)(Parameter&, int, double**&, double*&, chr_diplo**&, chr_diplo**&) = NULL;
 	if (param.Get_n() > 2)
 		migfunc = &steppingStone1D;
 	else
 		migfunc = &twoDemeMigration;
+
+
 
 	void (*mutfunc)(Parameter &, chr_diplo ** &p) = NULL;
 	if (param.Get_no_mut())
@@ -193,6 +215,13 @@ void recursion(Parameter &param)
 		mutfunc = &mutation_all_site;
 		cout << "locus will experience mutation at a rate " << param.Get_U() << " at each generations\n";
 	}
+	cout << param.Get_nbS() << endl;
+	cout << param.Get_L() << endl;
+	cout << param.Get_r() << endl;
+	cout << param.Get_rn() << endl;
+	cout << param.Get_freerec() << endl;
+
+
 
 	////////////////////////////////////////////////////////
 	///////////////// THE LOOP ////////////////////////////

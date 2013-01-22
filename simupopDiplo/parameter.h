@@ -16,6 +16,8 @@ private:
 	double Uv;
 	int nbSv;
 	double Lv;
+	double rv;
+	double rnv;
 	int locv;
 	int NbGenv;
 	int adapgenv;	
@@ -37,29 +39,33 @@ public:
 	void Set_U(double U);
 	void Set_nbS(int nbS);
 	void Set_L(double L);
+	void Set_r(double r);
+	void Set_rn(double rn);
 	void Set_loc(int loc);
 	void Set_NbGen(int NbGen);
 	void Set_adapgen(int adapgen);
 	void Set_pas(int pas);
 	void Set_freerec(bool freerec);
 	void Set_no_mut(bool no_mut);
-    int Get_n() { return nv;}
-    int Get_N() {return Nv;}
-    double Get_m() {return mv;}
-    int Get_a() {return av;}
-    double Get_s() {return sv;}
-    double Get_h() {return hv;}
-	double Get_sig_s() {return sig_sv; }
-	double Get_i() { return iv; }
-	double Get_sig_i() {return sig_iv; }
-	double Get_U() {return Uv;}
-	int Get_nbS() {return nbSv;}
-	double Get_L() {return Lv;}
-	int Get_loc() {return locv;}
-	int Get_NbGen() {return NbGenv;}
-	int Get_adapgen() {return adapgenv;}
-	int Get_pas() {return pasv;}
-	bool Get_freerec(){return freerecv;} 
-	bool Get_no_mut(){return no_mutv;}
+    inline int Get_n() { return nv;}
+    inline int Get_N() {return Nv;}
+    inline double Get_m() {return mv;}
+    inline int Get_a() {return av;}
+    inline double Get_s() {return sv;}
+    inline double Get_h() {return hv;}
+    inline double Get_sig_s() {return sig_sv; }
+    inline double Get_i() { return iv; }
+    inline double Get_sig_i() {return sig_iv; }
+    inline double Get_U() {return Uv;}
+    inline int Get_nbS() {return nbSv;}
+    inline double Get_L() {return Lv;}
+    inline double Get_r() {return rv;}
+    inline double Get_rn() {return rnv;}
+    inline int Get_loc() {return locv;}
+    inline int Get_NbGen() {return NbGenv;}
+    inline int Get_adapgen() {return adapgenv;}
+    inline int Get_pas() {return pasv;}
+    inline bool Get_freerec(){return freerecv;}
+    inline bool Get_no_mut(){return no_mutv;}
 };
 #endif

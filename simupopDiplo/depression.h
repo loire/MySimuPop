@@ -44,13 +44,19 @@ double gammln(const double xx);
 double poisdev(const double xm);
 double binldev(const double pp, const int n);
 double gasdev();
-void rec(chr_diplo &res, chr_diplo &c1, chr_diplo &c2, double sz, int nS);
-void freerec(chr_diplo &res, chr_diplo &c1,chr_diplo &c2, int Taille);
+
 void cntl_c_handler(int bidon);
 
 void fitness(Parameter &param, double ** &Wij,double * &wbar,double * &wmax,chr_diplo ** &pop,selCoeffs * &Sc);
 void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, chr_diplo ** &temp, chr_diplo ** &pop);
 void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wmax, chr_diplo ** &temp, chr_diplo ** &pop);
+
+
+void rec_L(Parameter &param, chr_diplo &res, chr_diplo &c1, chr_diplo &c2);
+void rec_r(Parameter &param, chr_diplo &res, chr_diplo &c1, chr_diplo &c2);
+void freerec(Parameter &param, chr_diplo &res, chr_diplo &c1,chr_diplo &c2);
+
+
 
 void initpop(Parameter &, chr_diplo ** &p, selCoeffs * &Sc);
 void mutation_muck(Parameter &param, chr_diplo ** &pop);

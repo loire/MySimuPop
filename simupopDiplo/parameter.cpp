@@ -57,6 +57,15 @@ void Parameter::Set_L(double L)
 {
 	Lv=L;
 }
+void Parameter::Set_r(double r)
+{
+	rv=r;
+}
+void Parameter::Set_rn(double rn)
+{
+	rnv=rn;
+}
+
 void Parameter::Set_loc(int loc)
 {
 	locv=loc;

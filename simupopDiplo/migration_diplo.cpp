@@ -13,13 +13,15 @@
 using namespace std;
 
 extern MTRand rnd;
+extern void (*recfunc)(Parameter&, chr_diplo &, chr_diplo &, chr_diplo &);
+
 
 void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wmax, chr_diplo ** &temp, chr_diplo ** &pop)
 {
 	int i,j,ind;
 	int par1,par2;
 	// Deme 0:
-
+//	recfunc(param.Get_N());
 	for (ind = 0;  ind < param.Get_N() ; ind++)
 	{
 		// Phillopatric
@@ -39,9 +41,9 @@ void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wma
 			while (rnd.rand() > Wij[0][par2] / wmax[0]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[0][ind], pop[0][par1], pop[0][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[0][ind], pop[0][par1], pop[0][par2]);
 			else
-				freerec(temp[0][ind], pop[0][par1], pop[0][par2], param.Get_nbS());
+				freerec(param, temp[0][ind], pop[0][par1], pop[0][par2]);
 		}
 		else  // migrants:
 		{
@@ -58,9 +60,9 @@ void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wma
 			while (rnd.rand() > Wij[1][par2] / wmax[1]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[0][ind], pop[1][par1], pop[1][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[0][ind], pop[1][par1], pop[1][par2]);
 			else
-				freerec(temp[0][ind], pop[1][par1], pop[1][par2], param.Get_nbS());
+				freerec(param, temp[0][ind], pop[1][par1], pop[1][par2]);
 		}
 	}
 	// Deme 1:
@@ -84,9 +86,9 @@ void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wma
 			while (rnd.rand() > Wij[1][par2] / wmax[1]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[1][ind], pop[1][par1], pop[1][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[1][ind], pop[1][par1], pop[1][par2]);
 			else
-				freerec(temp[1][ind], pop[1][par1], pop[1][par2], param.Get_nbS());
+				freerec(param, temp[1][ind], pop[1][par1], pop[1][par2]);
 		}
 		else   // migrants:
 		{
@@ -103,9 +105,9 @@ void twoDemeMigration(Parameter &param, int N_1,  double ** &Wij,  double * &wma
 			while (rnd.rand() > Wij[0][par2] / wmax[0]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[1][ind], pop[0][par1], pop[0][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[1][ind], pop[0][par1], pop[0][par2]);
 			else
-				freerec(temp[1][ind], pop[0][par1], pop[0][par2], param.Get_nbS());
+				freerec(param, temp[1][ind], pop[0][par1], pop[0][par2]);
 		}
 	}
 	for (i=0; i < param.Get_n() ; i++)
@@ -145,9 +147,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 			while (rnd.rand() > Wij[0][par2] / wmax[0]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[0][ind], pop[0][par1], pop[0][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[0][ind], pop[0][par1], pop[0][par2]);
 			else
-				freerec(temp[0][ind], pop[0][par1], pop[0][par2], param.Get_nbS());
+				freerec(param, temp[0][ind], pop[0][par1], pop[0][par2]);
 		}
 		else
 		{
@@ -164,9 +166,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 			while (rnd.rand() > Wij[1][par2] / wmax[1]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[0][ind], pop[1][par1], pop[1][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[0][ind], pop[1][par1], pop[1][par2]);
 			else
-				freerec(temp[0][ind], pop[1][par1], pop[1][par2], param.Get_nbS());
+				freerec(param, temp[0][ind], pop[1][par1], pop[1][par2]);
 		}
 
 	}
@@ -197,9 +199,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 				while (rnd.rand() > Wij[i_l][par2] / wmax[i_l]);
 				// recombination:
 				if (param.Get_freerec()!=1)
-					rec(temp[i][ind], pop[i_l][par1], pop[i_l][par2], param.Get_L(), param.Get_nbS());
+					rec_L(param, temp[i][ind], pop[i_l][par1], pop[i_l][par2]);
 				else
-					freerec(temp[i][ind], pop[i_l][par1], pop[i_l][par2], param.Get_nbS());
+					freerec(param, temp[i][ind], pop[i_l][par1], pop[i_l][par2]);
 			}
 			else
 			{
@@ -218,9 +220,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 					while (rnd.rand() > Wij[i_r][par2] / wmax[i_r]);
 					// recombination:
 					if (param.Get_freerec()!=1)
-						rec(temp[i][ind], pop[i_r][par1], pop[i_r][par2], param.Get_L(), param.Get_nbS());
+						rec_L(param, temp[i][ind], pop[i_r][par1], pop[i_r][par2]);
 					else
-						freerec(temp[i][ind], pop[i_r][par1], pop[i_r][par2], param.Get_nbS());
+						freerec(param, temp[i][ind], pop[i_r][par1], pop[i_r][par2]);
 				}
 				else				// Phillopatric indiv
 				{
@@ -237,9 +239,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 					while (rnd.rand() > Wij[i][par2] / wmax[i]);
 					// recombination:
 					if (param.Get_freerec()!=1)
-						rec(temp[i][ind], pop[i][par1], pop[i][par2], param.Get_L(), param.Get_nbS());
+						rec_L(param, temp[i][ind], pop[i][par1], pop[i][par2]);
 					else
-						freerec(temp[i][ind], pop[i][par1], pop[i][par2], param.Get_nbS());
+						freerec(param, temp[i][ind], pop[i][par1], pop[i][par2]);
 				}
 			}
 		}
@@ -265,9 +267,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 			while (rnd.rand() > Wij[nv_1][par2] / wmax[nv_1]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[nv_1][ind], pop[nv_1][par1], pop[nv_1][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[nv_1][ind], pop[nv_1][par1], pop[nv_1][par2]);
 			else
-				freerec(temp[nv_1][ind], pop[nv_1][par1], pop[nv_1][par2], param.Get_nbS());
+				freerec(param, temp[nv_1][ind], pop[nv_1][par1], pop[nv_1][par2]);
 		}
 		else
 		{
@@ -284,9 +286,9 @@ void steppingStone1D(Parameter &param, int N_1, double ** &Wij,double * &wmax, c
 			while (rnd.rand() > Wij[nv_2][par2] / wmax[nv_2]);
 			// recombination:
 			if (param.Get_freerec()!=1)
-				rec(temp[nv_1][ind], pop[nv_2][par1], pop[nv_2][par2], param.Get_L(), param.Get_nbS());
+				rec_L(param, temp[nv_1][ind], pop[nv_2][par1], pop[nv_2][par2]);
 			else
-				freerec(temp[nv_1][ind], pop[nv_2][par1], pop[nv_2][par2], param.Get_nbS());
+				freerec(param, temp[nv_1][ind], pop[nv_2][par1], pop[nv_2][par2]);
 		}
 
 	}

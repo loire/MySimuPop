@@ -64,6 +64,8 @@ bool lireFichier(Parameter &param)
         param.Set_U(cfg.lookup("chrom.U"));
         param.Set_nbS(cfg.lookup("chrom.nbS"));
         param.Set_L(cfg.lookup("chrom.L"));
+        param.Set_r(cfg.lookup("chrom.r"));
+        param.Set_rn(cfg.lookup("chrom.rn"));
 		param.Set_freerec(cfg.lookup("chrom.freerec"));
 		param.Set_no_mut(cfg.lookup("chrom.no_mut"));
 		}
@@ -114,6 +116,8 @@ void ecrireParametres(Parameter &param)
 	fichierS << ", U = " << param.Get_U();
 	fichierS << ", nbS = " << param.Get_nbS();
 	fichierS << ", L = " << param.Get_L();
+	fichierS << ", r = " << param.Get_r();
+	fichierS << ", rn = " << param.Get_rn();
 	fichierS << ", loc1 = " <<  param.Get_loc();
 	fichierS << "\ngenerations = " << param.Get_NbGen();
 	fichierS << "\nmutation adaptative a partir de = " << param.Get_adapgen();
